@@ -1,0 +1,22 @@
+﻿@section style {
+    <link rel="stylesheet" href="~/Content/accds/index/index.css" />
+}
+@section scripts {
+    <script type="text/javascript" src="~/Scripts/accds/index/app.js"></script>
+    <script type="text/javascript" src="~/Scripts/accds/index/controller.js"></script>
+    <script type="text/javascript" src="~/Scripts/accds/index/service.js"></script>
+}
+<div ng-app="indexApp">
+    <div ui-view>
+    </div>
+    <!-- We need this info to other INDEX !!!! -->
+
+    <script id="templates/home.html" type="text/ng-template">
+        <a href="@Url.Action("Index", "UserSettings", new { area = "Settings" })">CRUD Example</a>
+        <br />
+        <a href="@Url.Action("Index", "Charts", new { area = "Reports" })">Charts Example</a>
+        <br />
+        <a href="@Url.Action("Index", "PrimarySchool", new { area = "SchoolProfiles" })">Primary School</a>
+    </script>
+</div>
+

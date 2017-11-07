@@ -1,0 +1,95 @@
+﻿@section style {
+    <link rel="stylesheet" href="~/Content/accds/areas/school_profiles/primary_school/index.css" />
+}
+@section scripts {
+    <script type="text/javascript" src="~/Scripts/accds/areas/school_profiles/primary_school/app.js"></script>
+    <script type="text/javascript" src="~/Scripts/accds/areas/school_profiles/primary_school/controller.js"></script>
+    <script type="text/javascript" src="~/Scripts/accds/areas/school_profiles/primary_school/service.js"></script>
+}
+
+<div style="min-height:100%; visibility: hidden">
+    <br><br><br><br><br>
+    
+</div>
+<div>
+    <div ui-view>
+    </div>
+
+    <script id="templates/index.html" type="text/ng-template">
+        <ui-select multiple ng-model="mIndex.ListSchoolSelected" theme="bootstrap" close-on-select="true" style="width: 800px;">
+            <ui-select-match placeholder="Select school...">{{ $item.SchoolName }}</ui-select-match>
+            <ui-select-choices repeat="eSchool in mIndex.ListSchool">
+                <div ng-bind-html="eSchool.SchoolName"></div>
+            </ui-select-choices>
+        </ui-select>
+        <button type="button" class="btn btn-default" ng-click="doGetData()">View</button>
+        
+        <div class="container" ng-if="mIndex.bShowContent">
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a href="#1" data-toggle="tab">Summary</a>
+                </li>
+                <li>
+                    <a href="#2" data-toggle="tab">Level of English</a>
+                </li>
+                <li>
+                    <a href="#3" data-toggle="tab">Tab 3</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="1">
+                    <h4>Level of English {{ mIndex.ListingData[0].LevelOfEnglish.YearInfo.Year }}</h4>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Level of English</th>
+                                <th ng-repeat="eSchoolInfo in mIndex.ListingData">{{ eSchoolInfo.Name }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="eGenericSchoolData in mIndex.ListingData[0].ListLevelOfEnglish[0].ListGenericSchoolData" ng-init="nTopicIndex = $index">
+                                <td>{{ eGenericSchoolData.Topic }}</td>
+                                <td ng-repeat="eSchoolInfo in mIndex.ListingData">{{ eSchoolInfo.LevelOfEnglish.ListGenericSchoolData[nTopicIndex].Percent }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <highchart config="mIndex.LineChartsData"></highchart>
+                </div>
+                <div class="tab-pane" id="2">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th rowspan="2">Level of English</th>
+                                <th colspan="2" ng-repeat="eLevelOfEnglish in mIndex.ListingData[0].ListLevelOfEnglish">{{ eLevelOfEnglish.YearInfo.Year }}</th><!-- year loop on header row 1 -->
+                            </tr>
+                            <tr>
+                                <th ng-hide="true" ng-repeat-start="eLevelOfEnglish in mIndex.ListingData[0].ListLevelOfEnglish"></th><!-- main year loop, hide content -->
+                                <th ng-hide="true" ng-repeat-start="eSchoolInfo in mIndex.ListingData"></th><!-- inner shcool loop for each year, hide content -->
+                                <th>{{ eSchoolInfo.Name }}</th><!-- school name on header row 2 -->
+                                <th ng-hide="true" ng-repeat-end></th><!-- end year loop -->
+                                <th ng-hide="true" ng-repeat-end></th><!-- end school loop -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="eGenericSchoolData in mIndex.ListingData[0].ListLevelOfEnglish[0].ListGenericSchoolData" ng-init="nTopicIndex = $index"><!-- topic loop -->
+                                <td>{{ eGenericSchoolData.Topic }}</td><!-- topic name -->
+                                <td ng-hide="true" ng-repeat-start="eLevelOfEnglish in mIndex.ListingData[0].ListLevelOfEnglish" ng-init="nYearIndex = $index"></td><!-- main year loop, hide content -->
+                                <td ng-hide="true" ng-repeat-start="eSchoolInfo in mIndex.ListingData"></td><!-- inner school loop, hide content -->
+                                <td>{{ eSchoolInfo.ListLevelOfEnglish[nYearIndex].ListGenericSchoolData[nTopicIndex].Percent }}</td><!-- percent data, based on nTopicIndex & nYearIndex -->
+                                <td ng-hide="true" ng-repeat-end></td><!-- end school loop -->
+                                <td ng-hide="true" ng-repeat-end></td><!-- end year loop -->
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tab-pane" id="3">
+                    
+                </div>
+            </div>
+        </div>
+        <pre>
+            {{ mIndex | json }}
+        </pre>
+    </script>
+</div>
+

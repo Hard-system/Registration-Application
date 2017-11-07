@@ -1,0 +1,42 @@
+﻿@{
+    
+
+    @section style {
+        <link rel="stylesheet" href="~/Content/accds/index/index.css" />
+    }
+    @section scripts {
+        <script type="text/javascript" src="~/Scripts/accds/index/app.js"></script>
+        <script type="text/javascript" src="~/Scripts/accds/index/controller.js"></script>
+        <script type="text/javascript" src="~/Scripts/accds/index/service.js"></script>
+    }
+}
+
+<div class="btn-group">
+   @*<h2 style="text-align:center;font-family: 'Homemade Apple', cursive;
+font-family: 'Neucha', cursive;">Admin Controls</h2>*@
+</div>
+
+<div class="row">
+   <br /><br />
+    <div >
+        <div ng-app="indexApp">
+            <div ui-view style="text-align:center;">
+            </div>
+            <h2 style="text-align:center">@ViewBag.Title</h2>
+            <script id="templates/home.html" type="text/ng-template">
+                <a href="@Url.Action("Index", "UserSettings", new { area = "Settings" })" style="text-align:center; font-size:30px;font-family: 'Homemade Apple', cursive;
+                font-family: 'Neucha', cursive;">User Management</a>
+                <br />
+                @*<a href="@Url.Action("Index", "Charts", new { area = "Reports" })" style="text-align:center;font-size:30px;font-family: 'Homemade Apple', cursive;
+                font-family: 'Neucha', cursive;">Charts Example</a>
+                <br />*@
+                @*<a href="@Url.Action("Index", "PrimarySchool", new { area = "SchoolProfiles" })" style="text-align:center;font-size:30px;font-family: 'Homemade Apple', cursive;
+                font-family: 'Neucha', cursive;">Primary School</a>*@
+
+            </script>
+        </div>
+    </div>
+    
+
+</div>
+

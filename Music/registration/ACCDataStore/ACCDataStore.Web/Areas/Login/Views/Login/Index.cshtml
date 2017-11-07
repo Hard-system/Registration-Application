@@ -1,0 +1,90 @@
+﻿@using ACCDataStore.Models
+@model LoginViewModel
+
+<script language="javascript">
+    function isCapsLockOn(e) {
+        var keyCode = e.keyCode ? e.keyCode : e.which;
+        var shiftKey = e.shiftKey ? e.shiftKey : ((keyCode == 16) ? true : false);
+        return (((keyCode >= 65 && keyCode <= 90) && !shiftKey) || ((keyCode >= 97 && keyCode <= 122) && shiftKey))
+    }
+    function showCapsLockMsg(e) {
+        var warningElement = document.getElementById('capsLockWarning');
+        if (isCapsLockOn(e))
+            warningElement.style.display = 'block';
+        else
+            warningElement.style.display = 'none';
+    }
+    document.onkeypress = function (e) {
+        e = e || window.event;
+        showCapsLockMsg(e);
+    }
+</script>
+
+@using (Html.BeginForm("Validate", "Login"))
+{
+
+    <br /><br /><br />
+    <div class="row justify-content-md-center">
+        <div class="container">
+            <div class="row">
+                <h2 style="margin-left:26.3%">@ViewBag.Title</h2>
+                <div class="col-md-6 col-md-offset-3">
+                    <h4 style="border-bottom: 1px solid #c5c5c5;">
+                        <i class="glyphicon glyphicon-user">
+                        </i>
+                        Account Access
+                    </h4>
+                </div>
+                <div class="col-md-6 col-md-offset-3">
+
+
+                    <form name="form" ng-submit="vm.login()" role="form">
+
+                        @* EMAIL CODE Below--------------<<<<<>>>>>>>>><<<<<<<<>>>>>>>>>>>>>>>>>>> *@
+                        <div>
+                            <div class="form-group input-group" ng-class="{ 'has-error': form.email.$dirty && form.email.$error.required }">
+                                <span class="input-group-addon">
+                                    @@
+                                </span>
+                                <input class="form-control" placeholder="Email" name="email" type="email" required="" autofocus="" ng-model="mAddEditView.User.Email" />
+
+                            </div>
+                        </div>
+
+                        <div class="form-group input-group" ng-class="{ 'has-error': form.password.$dirty && form.password.$error.required }">
+                            <span class="input-group-addon">
+                                <i class="glyphicon glyphicon-lock"></i>
+                            </span>
+                            <input class="form-control" placeholder="Password" name="password" type="password" value="" required="" onkeypress="capLock(event)" ng-model="mAddEditView.User.Password" />
+                            
+                        </div>
+                        
+                        <div id="capsLockWarning" style="font-weight: bold; color: maroon; margin: 0 0 10px 0; display: none;">Caps Lock is on.</div>
+
+
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-block" value="Login">
+                                Login
+                            </button>
+                            <p class="help-block">
+                                <a class="pull-right text-muted" href="@Url.Action("Index", "ForgotPassword", new { area = "ForgotPassword" })" id="olvidado"><small>Forgot your password?</small></a>
+                            </p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@if (TempData["Message"] != null)
+            {
+    <div style="text-align:center; border-style: ridge;  margin-left:30%; margin-right:30%; border-radius:5px;">
+        <span style="color:red; text-align:center; font-size: 15px;">@TempData["Message"].ToString()</span>
+    </div>
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

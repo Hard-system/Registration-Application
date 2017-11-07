@@ -1,0 +1,298 @@
+﻿@section style {
+    <link rel="stylesheet" href="~/Content/accds/areas/registration/index.css" />
+}
+@section scripts {
+    <script type="text/javascript" src="~/Scripts/accds/areas/registration/app.js"></script>
+    <script type="text/javascript" src="~/Scripts/accds/areas/registration/controller.js"></script>
+    <script type="text/javascript" src="~/Scripts/accds/areas/registration/service.js"></script>
+}
+
+
+
+
+@*Popover message for input fields*@
+<script>
+    $(document).ready(function () {
+        $('[data-toggle="popover"]').popover();
+    });
+
+
+</script>
+<style>
+    .popover.primary {
+        border-color: #337ab7;
+    }
+
+        .popover.primary > .arrow {
+            border-top-color: #337ab7;
+        }
+
+        .popover.primary > .popover-title {
+            color: #fff;
+            background-color: #337ab7;
+            border-color: #337ab7;
+        }
+
+    .popover.success {
+        border-color: #d6e9c6;
+    }
+
+        .popover.success > .arrow {
+            border-top-color: #d6e9c6;
+        }
+
+        .popover.success > .popover-title {
+            color: #3c763d;
+            background-color: #dff0d8;
+            border-color: #d6e9c6;
+        }
+
+    .popover.info {
+        border-color: #bce8f1;
+    }
+
+        .popover.info > .arrow {
+            border-top-color: #bce8f1;
+        }
+
+        .popover.info > .popover-title {
+            color: #31708f;
+            background-color: #d9edf7;
+            border-color: #bce8f1;
+        }
+
+    .popover.warning {
+        border-color: #faebcc;
+    }
+
+        .popover.warning > .arrow {
+            border-top-color: #faebcc;
+        }
+
+        .popover.warning > .popover-title {
+            color: #8a6d3b;
+            background-color: #fcf8e3;
+            border-color: #faebcc;
+        }
+
+    .popover.danger {
+        border-color: #ebccd1;
+    }
+
+        .popover.danger > .arrow {
+            border-top-color: #ebccd1;
+        }
+
+        .popover.danger > .popover-title {
+            color: #a94442;
+            background-color: #f2dede;
+            border-color: #ebccd1;
+        }
+</style>
+<script>
+    $(document).ready(function () {
+
+        //minimum 8 characters
+        var bad = /(?=.{8,}).*/;
+        //Alpha Numeric plus minimum 8
+        var good = /^(?=\S*?[a-z])(?=\S*?[0-9])\S{8,}$/;
+        //Must contain at least one upper case letter, one lower case letter and (one number OR one special char).
+        var better = /^(?=\S*?[A-Z])(?=\S*?[a-z])((?=\S*?[0-9])|(?=\S*?[^\w\*]))\S{8,}$/;
+        //Must contain at least one upper case letter, one lower case letter and (one number AND one special char).
+        var best = /^(?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9])(?=\S*?[^\w\*])\S{8,}$/;
+
+        $('#password').on('keyup', function () {
+            var password = $(this);
+            var pass = password.val();
+            var passLabel = $('[for="password"]');
+            var stength = 'Weak';
+            var pclass = 'danger';
+            if (best.test(pass) == true) {
+                stength = 'Very Strong';
+                pclass = 'success';
+            } else if (better.test(pass) == true) {
+                stength = 'Strong';
+                pclass = 'warning';
+            } else if (good.test(pass) == true) {
+                stength = 'Almost Strong';
+                pclass = 'warning';
+            } else if (bad.test(pass) == true) {
+                stength = 'Weak';
+            } else {
+                stength = 'Very Weak';
+            }
+
+            var popover = password.attr('data-content', stength).data('bs.popover');
+            popover.setContent();
+            popover.$tip.addClass(popover.options.placement).removeClass('danger success info warning primary').addClass(pclass);
+
+        });
+
+        $('input[data-toggle="popover"]').popover({
+            placement: 'top',
+            trigger: 'focus'
+        });
+
+    })
+</script>
+@*THis is the code for caps lock on/off message Password*@
+
+<script language="javascript">
+    function isCapsLockOn(e) {
+        var keyCode = e.keyCode ? e.keyCode : e.which;
+        var shiftKey = e.shiftKey ? e.shiftKey : ((keyCode == 16) ? true : false);
+        return (((keyCode >= 65 && keyCode <= 90) && !shiftKey) || ((keyCode >= 97 && keyCode <= 122) && shiftKey))
+    }
+    function showCapsLockMsg(e) {
+        var warningElement = document.getElementById('capsLockWarning');
+        if (isCapsLockOn(e))
+            warningElement.style.display = 'block';
+        else
+            warningElement.style.display = 'none';
+    }
+    document.onkeypress = function (e) {
+        e = e || window.event;
+        showCapsLockMsg(e);
+    }
+</script>
+
+<div ui-view>
+</div>
+
+<script id="templates/add-edit-view.html" type="text/ng-template">
+
+    <div class="row justify-content-md-center">
+
+
+        <div class="col-md-4 col-md-offset-2">
+
+            <br />
+            <br />
+            <h2>Register</h2>
+            @* FULLNAME CODE Below--------------<<<<<>>>>>>>>><<<<<<<<>>>>>>>>>>>>>>>>>>> *@
+            <form name="form" ng-submit="vm.register()" role="form">
+                <div class="form-group" ng-class="{ 'has-error': form.firstName.$dirty && form.firstName.$error.required }">
+                    <label for="username"><font style="color:red;">*</font>Fullname</label>
+                    <input type="text" name="firstName" id="firstName" autofocus class="form-control" ng-model="mAddEditView.User.Fullname" ng-pattern="/^([a-zA-Z]+[,.]?[ ]?|[a-zA-Z]+['-]?)+$/" required />
+                    <span ng-show="form.firstName.$dirty && form.firstName.$error.required" class="help-block">Fullname is required, use only words!</span>
+
+                </div>
+
+                @* EMAIL CODE Below--------------<<<<<>>>>>>>>><<<<<<<<>>>>>>>>>>>>>>>>>>> *@
+                <div>
+                    <div class="form-group" ng-class="{ 'has-error': form.email.$dirty && form.email.$error.required }">
+                        <div style="float:left;">
+                            <label for="email">
+                                <font style="color:red;">*</font>
+                                Email :
+                            </label>
+                        </div>
+                        <div style="float:right;"><button data-ng-click="isEmailFree(mAddEditView.User.Email)" value="Registration" style="margin-left:2%; background-color:cornflowerblue; color:white;  border-radius: 25px;" type="button">Check</button></div>
+                        <input data-toggle="popover" data-trigger="focus" data-content="In order to register type a correct email!" type="email"
+                               name="email" class="form-control" ng-model="mAddEditView.User.Email" ng-pattern="/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/" required />
+                        <span ng-show="form.email.$dirty && form.email.$error.required" class="help-block">Email is required</span>
+                        <span ng-show="errors.mail.message != ''" class="help-block"><font style="color:grey">{{errors.mail.message}}</font></span>
+
+
+                    </div>
+
+                </div>
+
+
+                @* PASSWORD CODE Below--------------<<<<<>>>>>>>>><<<<<<<<>>>>>>>>>>>>>>>>>>> *@
+                <div class="form-group" ng-class="{ 'has-error': form.password.$dirty && form.password.$error.required }">
+                    
+                    <label for="password"><font style="color:red;">*</font>Password</label>
+                    
+                    <input data-toggle="popover" data-trigger="focus" minlength=8; data-content="Minimum 8 characters long." type="password" name="password" id="password" onkeypress="capLock(event)" class="form-control" ng-model="mAddEditView.User.Password" required />
+
+                    <div id="capsLockWarning" style="font-weight: bold; color: maroon; margin: 0 0 10px 0; display: none;">Caps Lock is on.</div>
+
+                        <span ng-show="form.password.$dirty && form.password.$error.required" class="help-block">Password is required</span>
+                </div>
+               
+
+                @* PASSWORD 2 CODE Below--------------<<<<<>>>>>>>>><<<<<<<<>>>>>>>>>>>>>>>>>>> *@
+                <div class="form-group" ng-class="{ 'has-error': form.password1.$dirty && form.password1.$error.required }">
+
+                        <label for="password1"><font style="color:red;">*</font>Confirm Password</label>
+                        <input data-toggle="popover" data-trigger="focus" data-content="The password should match." type="password" name="password1" id="password1" onkeypress="capLock(event)" class="form-control" ng-match="mAddEditView.User.Password" ng-model="mAddEditView.User.Password1" required />
+                    
+
+                        <span ng-show="form.password1.$dirty && form.password1.$error.required" class="help-block">Password is required</span>
+                        <span ng-show="mAddEditView.User.Password !== mAddEditView.User.Password1" class="help-block"><font style="color:red;">Password is not valid!</font></span>
+                        @* code for checking if password match *@
+                        <span ng-show="form.password1.$valid && mAddEditView.User.Password === mAddEditView.User.Password1" style="margin-left: 0%;"><font style="color:black;">Password Matched</font></span>
+                   
+                </div>
+
+                @* GENDER CODE Below--------------<<<<<>>>>>>>>><<<<<<<<>>>>>>>>>>>>>>>>>>> *@
+                <div class="form-group" ng-class="{ 'has-error': form.gender.$dirty && form.gender.$error.required }">
+                    <label for="username"><font style="color:red;">*</font>Gender</label>
+                    <select class="form-control" name="gender" id="Text1" ng-model="mAddEditView.User.Gender" required>
+                        <option></option>
+                        <option>Male</option>
+                        <option>Female</option>
+                    </select>
+                    <span ng-show="form.gender.$dirty && form.gender.$error.required" class="help-block">Gender is required</span>
+                </div>
+
+                @* ORGANIZATION CODE Below--------------<<<<<>>>>>>>>><<<<<<<<>>>>>>>>>>>>>>>>>>> *@
+                <div class="form-group" ng-class="{ 'has-error': form.organization.$dirty && form.organization.$error.required }">
+                    <label for="username"><font style="color:red;">*</font>Organization</label>
+                    <input type="text" name="organization" id="Text1" class="form-control" ng-model="mAddEditView.User.Organization" required />
+                    <span ng-show="form.organization.$dirty && form.organization.$error.required" class="help-block">Organization is required</span>
+                </div>
+
+                @* OCCUPATION CODE Below--------------<<<<<>>>>>>>>><<<<<<<<>>>>>>>>>>>>>>>>>>> *@
+                <div class="form-group" ng-class="{ 'has-error': form.occupation.$dirty && form.occupation.$error.required }">
+                    <label for="username"><font style="color:red;">*</font>Occupation</label>
+                    <input type="text" name="occupation" id="Text1" class="form-control" ng-model="mAddEditView.User.Occupation" required />
+
+                    <span ng-show="form.occupation.$dirty && form.occupation.$error.required" class="help-block">Occupation is required</span>
+                </div>
+
+             
+
+                @* CHECKBOX 1 - SCHOOL Profile CODE Below--------------<<<<<>>>>>>>>><<<<<<<<>>>>>>>>>>>>>>>>>>> *@
+                <p class="form-group">Choose permissions: </p>
+                <div class="form-group">
+                    <label for="username"><input type="checkbox" class="identity" style="zoom:1.1" name="Schoolpro" id="Schoolpro" ng-model="mAddEditView.User.Schoolpro" />School Profile: </label>
+                </div>
+
+
+                @* CHECKBOX 2 - Wider Achievement CODE Below--------------<<<<<>>>>>>>>><<<<<<<<>>>>>>>>>>>>>>>>>>> *@
+                <div class="form-group">
+                    <label for="username">
+                        <input type="checkbox" style="zoom:1.1" name="Widerach" id="Widerach" ng-model="mAddEditView.User.Widerach" />
+                        Wider Achievement:
+                    </label>
+                </div>
+
+                @* CHECKBOX 3 - Data Hub Data CODE Below--------------<<<<<>>>>>>>>><<<<<<<<>>>>>>>>>>>>>>>>>>> *@
+                <div class="form-group">
+                    <label for="username">
+                        <input type="checkbox" style="zoom:1.1" name="Datahub" id="Datahub" ng-model="mAddEditView.User.Datahub" />DataHub data:
+                    </label>
+                </div>
+
+
+                @* SAVE AND CANCEL BUTTON CODE Below--------------<<<<<>>>>>>>>><<<<<<<<>>>>>>>>>>>>>>>>>>> *@
+                <div class="form-actions">
+                    <button type="button" ng-click="doSave(mAddEditView.User, mAddEditView.Request)" ng-disabled="form.$invalid || vm.dataLoading || errors.mail.isExists || mAddEditView.User.Password !== mAddEditView.User.Password1" class="btn btn-primary" ng-click="regform.$invalid ? alert(" ng-messages="regform.Fullname.$error" ) doSave(mAddEditView.User, mAddEditView.Request)>Register</button>
+                    <button ng-click="redirect()" class="btn btn-secondary"style="background-color:white;" >Cancel</button>
+                </div>
+               @*remove at the end*@ 
+                <pre style="position: absolute; left: 200px;border: 3px solid #73AD21;"> {{ mAddEditView.User | json }}  </pre>
+                <pre style="position: absolute; right: 200px;border: 3px solid #73AD21;"> {{ mAddEditView.Request | json }}  </pre>
+            </form>
+        </div>
+    </div>
+
+</script>
+
+@if (TempData["Message"] != null)
+{
+    <span style="color:red;">@TempData["Message"].ToString()</span>
+}
+

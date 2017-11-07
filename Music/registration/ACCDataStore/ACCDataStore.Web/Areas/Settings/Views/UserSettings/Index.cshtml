@@ -1,0 +1,169 @@
+﻿@section style {
+    <link rel="stylesheet" href="~/Content/accds/areas/settings/user-settings/index.css" />
+}
+@section scripts {
+    <script type="text/javascript" src="~/Scripts/accds/areas/settings/user-settings/app.js"></script>
+    <script type="text/javascript" src="~/Scripts/accds/areas/settings/user-settings/controller.js"></script>
+    <script type="text/javascript" src="~/Scripts/accds/areas/settings/user-settings/service.js"></script>
+}
+<div ng-app="userSettingsApp">
+    <div ui-view>
+    </div>
+
+    <script id="templates/list.html" type="text/ng-template">
+        <h2>{{ pageTitle }}</h2>
+        <style>
+            table {
+                font-family: arial, sans-serif;
+                border-collapse: collapse;
+                width: 100%;
+            }
+
+            td, th {
+                border: 1px solid #dddddd;
+                text-align: left;
+                padding: 8px;
+            }
+
+            tr:nth-child(even) {
+                background-color: #dddddd;
+            }
+
+            div.scroll {
+                background-color: #00FFFF;
+                width: 100px;
+                height: 100px;
+                overflow: scroll;
+            }
+        </style>
+
+        <br />
+        <h2 style="text-align:center;">User Management</h2>
+        <br />
+        <div style="float:left;background-color: lightsteelblue;margin-left:60px;height: 550px;overflow: auto;">
+            <table>
+                <thead>
+                    <tr>
+                        <th style="margin-right: 1px;">ID</th>
+                        <th>Fullname</th>
+                        <th>Organization</th>
+                        <th>Occupation</th>
+                        <th>Gender</th>
+                        <th>Email</th>
+
+                        <th>Buttons</th>
+                    </tr>
+                </thead>
+                <tbody ng-repeat="eUser in mList.ListUser">
+                    <tr>
+                        <td>{{ eUser.ID }}</td>
+                        <td>{{ eUser.Fullname }}</td>
+                        <td>{{ eUser.Organization }}</td>
+                        <td>{{ eUser.Occupation }}</td>
+                        <td>{{ eUser.Gender }}</td>
+                        <td>{{ eUser.Email }}</td>
+
+
+                        <td>
+                            <div style=" white-space:nowrap;">
+                                <button type="button" style="float:left; width:30%; display:inline;" ng-click="doView(eUser)">View</button>
+                                <button type="button" style="float:left; width:30%; display:inline;" ng-click="doEdit(eUser)">Edit</button>
+                                <button type="button" style="float:left; width:38%; display:inline;" ng-click="doDelete(eUser)">Delete</button>
+                            </div>
+                        </td>
+                    </tr>
+
+
+                </tbody>
+
+            </table>
+        </div>
+        <br />
+        
+        @*This is the code for the second table---------------------<<<<<<<<>>>>>>>>>>>>----------------------------------*@
+        <div style="float:left; background-color: lightsteelblue;width: 40%;height: 550px;overflow: auto;margin-top:-18.5px;">
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th style="margin-right: 1px;">ID</th>
+                        <th>School Profile</th>
+                        <th>DataHub</th>
+                        <th>WiderAchieve</th>
+                        <th>Enable</th>
+                        <th>Buttons</th>
+                    </tr>
+                </thead>
+                <tbody ng-repeat="eRequest in mList.ListRequest">
+                    <tr>
+                        <td>{{ eRequest.ID }}</td>
+                        <td>{{ eRequest.Schoolpro }}</td>
+                        <td>{{ eRequest.Widerach }}</td>
+                        <td>{{ eRequest.Datahub }}</td>
+
+                        <td><input type="checkbox" ng-model="eUser.Enable" disabled /></td>
+                        <td>
+                            <div style=" white-space:nowrap;">
+                                <button type="button" style="float:left; width:100%; display:inline;" ng-click="doDelete(eUser)">Delete</button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+
+            </table>
+        </div>
+    </script>
+
+    <script id="templates/add-edit-view.html" type="text/ng-template">
+        <h2>{{ pageTitle }}</h2>
+
+        <form #form="ngForm" style="position: absolute;left: 30px;  border-radius: 5px;">
+
+            <div class="form-group">
+                <label for="usr">Fullname :</label>
+                <input class="input-xlarge" type="text" required name="fullname" ng-model="mAddEditView.User.Fullname" />
+            </div>
+
+            <div class="form-group">
+                <label for="usr">Organization :</label>
+                <input class="input-xlarge" type="text" required name="organization" ng-model="mAddEditView.User.Organization" />
+            </div>
+
+            <div class="form-group">
+                <label>Occupation</label>
+                <select class="input-xlarge" ng-model="mAddEditView.User.Occupation">
+                    <option>Teacher</option>
+                    <option>Student</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Gender</label>
+                <select class="input-xlarge" ng-model="mAddEditView.User.Gender">
+                    <option>Male</option>
+                    <option>Female</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email :</label>
+                <input type="email" required class="input-xlarge" id="email" ng-model="mAddEditView.User.Email" />
+            </div>
+
+            <div class="form-group">
+                <br /> 
+                <button class="btn bg-primary" type="button" ng-click="doSave(mAddEditView.User)">Save</button>
+
+                <button class="btn btn-default" type="button" ng-click="doCancel()">Cancel</button>
+                <br />
+
+            </div>
+
+        </form>
+        {{form.pristine}}
+
+        <pre style="position: absolute; left: 500px;border: 3px solid #73AD21;">
+            {{ mAddEditView.User | json }}
+        </pre>
+    </script>
+</div>

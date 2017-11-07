@@ -1,0 +1,55 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+
+    @section style {
+        <link rel="stylesheet" href="~/Content/accds/index/index.css" />
+    }
+    @section scripts {
+        <script type="text/javascript" src="~/Scripts/accds/index/app.js"></script>
+        <script type="text/javascript" src="~/Scripts/accds/index/controller.js"></script>
+        <script type="text/javascript" src="~/Scripts/accds/index/service.js"></script>
+    }
+}
+
+
+
+<div class="jumbotron">
+
+    <h1>Alpha Team Statement:</h1>
+    <p class="lead">C# is the crazy language</p>
+  
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <h2>First Page </h2>
+      
+    </div>
+
+    
+    <div class="col-md-4">
+        <div ng-app="indexApp">
+            <div ui-view>
+            </div>
+            <!-- We need this info to our INDEX !!!!  This is JANNY`s Index page! -->
+
+            <script id="templates/home.html" type="text/ng-template">
+                <a href="@Url.Action("Index", "UserSettings", new { area = "Settings" })">CRUD Example</a>
+                <br />
+                <a href="@Url.Action("Index", "Charts", new { area = "Reports" })">Charts Example</a>
+                <br />
+                <a href="@Url.Action("Index", "PrimarySchool", new { area = "SchoolProfiles" })">Primary School</a>
+              
+            </script>
+        </div>
+    </div>
+        <div class="col-md-4">
+            <h2>Aberdeen University</h2>
+            <h3>
+               I <s>hate</s> love C#
+            </h3>
+           
+        </div>
+        
+    </div>
+

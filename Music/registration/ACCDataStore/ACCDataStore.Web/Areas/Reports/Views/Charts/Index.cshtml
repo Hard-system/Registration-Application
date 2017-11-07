@@ -1,0 +1,19 @@
+﻿@section style {
+    <link rel="stylesheet" href="~/Content/accds/areas/reports/charts/index.css" />
+}
+@section scripts {
+    <script type="text/javascript" src="~/Scripts/accds/areas/reports/charts/app.js"></script>
+    <script type="text/javascript" src="~/Scripts/accds/areas/reports/charts/controller.js"></script>
+    <script type="text/javascript" src="~/Scripts/accds/areas/reports/charts/service.js"></script>
+}
+<div ng-app="chartsApp">
+    <div ui-view>
+    </div>
+
+    <script id="templates/home.html" type="text/ng-template">
+        <highchart config="mHome.LineChartsData"></highchart>
+        <highchart config="mHome.ColumnChartsData"></highchart>
+    </script>
+</div>
+
+

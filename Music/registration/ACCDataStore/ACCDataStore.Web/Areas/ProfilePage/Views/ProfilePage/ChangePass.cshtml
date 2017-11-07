@@ -1,0 +1,285 @@
+﻿
+<br />
+<br />
+<link rel="stylesheet" href="~/bower_components/bootstrap/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="~/bower_components/angular-ui-select/dist/select.min.css">
+<link rel="stylesheet" href="~/bower_components/angular-datatables/dist/css/angular-datatables.min.css">
+<link href="https://fonts.googleapis.com/css?family=Homemade+Apple" rel="stylesheet">
+<script language="Javascript">
+    function capLock(e) {
+        kc = e.keyCode ? e.keyCode : e.which;
+        sk = e.shiftKey ? e.shiftKey : ((kc == 16) ? true : false);
+        if (((kc >= 65 && kc <= 90) && !sk) || ((kc >= 97 && kc <= 122) && sk))
+            document.getElementById('divMayus').style.visibility = 'visible';
+        else
+            document.getElementById('divMayus').style.visibility = 'hidden';
+    }
+</script>
+@*THis is the code for caps lock on/off message Confirm Password*@
+<script language="Javascript">
+    function capLock(e) {
+        kc = e.keyCode ? e.keyCode : e.which;
+        sk = e.shiftKey ? e.shiftKey : ((kc == 16) ? true : false);
+        if (((kc >= 65 && kc <= 90) && !sk) || ((kc >= 97 && kc <= 122) && sk))
+            document.getElementById('divMayu').style.visibility = 'visible';
+        else
+            document.getElementById('divMayu').style.visibility = 'hidden';
+    }
+    $(function () {
+        $('#sample').attr('readonly', 'true'); // mark it as read only
+        $('#sample').css('background-color', '#DEDEDE'); // change the background color
+    });
+</script>
+
+@*This is the code of popover message for instructions in the inputs*@
+@*<script>
+    $(document).ready(function () {
+        $('[data-toggle="popover"]').popover();
+    });
+
+    $(function () {
+        $('#sample').attr('readonly', 'true'); // mark it as read only
+        $('#sample').css('background-color', '#DEDEDE'); // change the background color
+    });
+
+</script>*@
+<style>
+    .popover.primary {
+        border-color: #337ab7;
+    }
+
+        .popover.primary > .arrow {
+            border-top-color: #337ab7;
+        }
+
+        .popover.primary > .popover-title {
+            color: #fff;
+            background-color: #337ab7;
+            border-color: #337ab7;
+        }
+
+    .popover.success {
+        border-color: #d6e9c6;
+    }
+
+        .popover.success > .arrow {
+            border-top-color: #d6e9c6;
+        }
+
+        .popover.success > .popover-title {
+            color: #3c763d;
+            background-color: #dff0d8;
+            border-color: #d6e9c6;
+        }
+
+    .popover.info {
+        border-color: #bce8f1;
+    }
+
+        .popover.info > .arrow {
+            border-top-color: #bce8f1;
+        }
+
+        .popover.info > .popover-title {
+            color: #31708f;
+            background-color: #d9edf7;
+            border-color: #bce8f1;
+        }
+
+    .popover.warning {
+        border-color: #faebcc;
+    }
+
+        .popover.warning > .arrow {
+            border-top-color: #faebcc;
+        }
+
+        .popover.warning > .popover-title {
+            color: #8a6d3b;
+            background-color: #fcf8e3;
+            border-color: #faebcc;
+        }
+
+    .popover.danger {
+        border-color: #ebccd1;
+    }
+
+        .popover.danger > .arrow {
+            border-top-color: #ebccd1;
+        }
+
+        .popover.danger > .popover-title {
+            color: #a94442;
+            background-color: #f2dede;
+            border-color: #ebccd1;
+        }
+</style>
+<script>
+    $(document).ready(function () {
+
+        //minimum 8 characters
+        var bad = /(?=.{8,}).*/;
+        //Alpha Numeric plus minimum 8
+        var good = /^(?=\S*?[a-z])(?=\S*?[0-9])\S{8,}$/;
+        //Must contain at least one upper case letter, one lower case letter and (one number OR one special char).
+        var better = /^(?=\S*?[A-Z])(?=\S*?[a-z])((?=\S*?[0-9])|(?=\S*?[^\w\*]))\S{8,}$/;
+        //Must contain at least one upper case letter, one lower case letter and (one number AND one special char).
+        var best = /^(?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9])(?=\S*?[^\w\*])\S{8,}$/;
+
+        $('#password').on('keyup', function () {
+            var password = $(this);
+            var pass = password.val();
+            var passLabel = $('[for="password"]');
+            var stength = 'Weak';
+            var pclass = 'danger';
+            if (best.test(pass) == true) {
+                stength = 'Very Strong';
+                pclass = 'success';
+            } else if (better.test(pass) == true) {
+                stength = 'Strong';
+                pclass = 'warning';
+            } else if (good.test(pass) == true) {
+                stength = 'Almost Strong';
+                pclass = 'warning';
+            } else if (bad.test(pass) == true) {
+                stength = 'Weak';
+            } else {
+                stength = 'Very Weak';
+            }
+
+            var popover = password.attr('data-content', stength).data('bs.popover');
+            popover.setContent();
+            popover.$tip.addClass(popover.options.placement).removeClass('danger success info warning primary').addClass(pclass);
+
+        });
+
+        $('input[data-toggle="popover"]').popover({
+            placement: 'top',
+            trigger: 'focus'
+        });
+
+    })
+</script>
+<script language="javascript">
+    function isCapsLockOn(e) {
+        var keyCode = e.keyCode ? e.keyCode : e.which;
+        var shiftKey = e.shiftKey ? e.shiftKey : ((keyCode == 16) ? true : false);
+        return (((keyCode >= 65 && keyCode <= 90) && !shiftKey) || ((keyCode >= 97 && keyCode <= 122) && shiftKey))
+    }
+    function showCapsLockMsg(e) {
+        var warningElement = document.getElementById('capsLockWarning');
+        if (isCapsLockOn(e))
+            warningElement.style.display = 'block';
+        else
+            warningElement.style.display = 'none';
+    }
+    document.onkeypress = function (e) {
+        e = e || window.event;
+        showCapsLockMsg(e);
+    }
+</script>
+@using (Html.BeginForm("Save", "ProfilePage"))
+{
+
+    <form accept-charset="UTF-8" data-toggle="validator" role="form" id="login-recordar" ng-submit="vm.login()">
+
+        @* EMAIL CODE Below--------------<<<<<>>>>>>>>><<<<<<<<>>>>>>>>>>>>>>>>>>> *@
+        <br /><br />
+        <h2 style="margin-left:33.5%">Change Password</h2><br />
+        <fieldset>
+            <div class="row justify-content-md-center">
+                <div class="col-md-4 col-md-offset-3">
+                    <div class="form-group input-group" ng-class="{ 'has-error': form.email.$dirty && form.email.$error.required }">
+                        <span class="input-group-addon">
+                            @@<label for="email">Email</label>
+                        </span>
+                        <input class="form-control" placeholder="Email" name="email" id='sample' value='@Html.Encode(User.Identity.Name)'
+                               required="" type="email" ng-model="mAddEditView.User.Email" />
+
+                    </div>
+
+                    @*PAssword field*@
+            
+               
+                <div class="form-group input-group" ng-class="{ 'has-error': form.password.$dirty && form.password.$error.required }">
+                    <span class="input-group-addon">
+                        <i class="glyphicon glyphicon-lock"></i><label for="password1">New Password</label>
+                    </span>
+                    <input class="form-control" placeholder="Password" data-toggle="popover" minlength=8; required title="Password Strength" data-content="Enter Password..." data-trigger="focus" data-content="Minimum 8 characters long and should contain at least one (small- and capital letter and number)." name="password" type="password" id="password" value="" required="" autofocus="" onkeypress="capLock(event)" ng-model="mAddEditView.User.Password" />
+                      </div>
+                    <div id="capsLockWarning" style="font-weight: bold; color: maroon; margin: 0 0 10px 0; display: none;">Caps Lock is on.</div>
+
+            
+            @*Confirm password*@
+            <div class="form-group input-group" ng-class="{ 'has-error': form.password1.$dirty && form.password1.$error.required }">
+                <span class="input-group-addon">
+                    <i class="glyphicon glyphicon-lock"></i><label for="password1">Confirm Password</label>
+                </span>
+                <input class="form-control" placeholder="Password" data-toggle="popover" data-trigger="focus" data-content="The password should match." name="password1" type="password" id="password1" value="" required="" onkeypress="capLock(event)" ng-model="mAddEditView.User.Password" />
+
+            </div>
+
+
+
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-block" value="Login">
+                    Change Password
+                </button>
+
+            </div>
+            </div>
+                </div>
+        </fieldset>
+    </form>
+
+}
+
+
+@if (TempData["Message"] != null)
+{
+    <div style="text-align:center; border:solid; border-color:red; margin-left:24%; margin-right:24%; border-radius:5px;">
+        <span style="color:red; text-align:center; font-size: 25px;">@TempData["Message"].ToString()</span>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+@*CODE FOR MATCH PASSWORD FIELDS*@
+<script>
+    $('form').on('submit', function () {
+        if ($('#password').val() != $('#password1').val()) {
+            alert('Password not matches');
+            return false;
+        }
+        return true;
+    });</script>
+
+@*<input type="password" class="form-control" id="password" data-toggle="tooltip" data-trigger="manual" data-title="Caps lock is on">*@
+
+
+@*-----code for caps-lock----*@
+@*<script>
+    $('[type=password]').keypress(function (e) {
+        var $password = $(this),
+            tooltipVisible = $('.tooltip').is(':visible'),
+            s = String.fromCharCode(e.which);
+
+        //Check if capslock is on. No easy way to test for this
+        //Tests if letter is upper case and the shift key is NOT pressed.
+        if (s.toUpperCase() === s && s.toLowerCase() !== s && !e.shiftKey) {
+            if (!tooltipVisible)
+                $password.tooltip('show');
+        } else {
+            if (tooltipVisible)
+                $password.tooltip('hide');
+        }
+
+        //Hide the tooltip when moving away from the password field
+        $password.blur(function (e) {
+            $password.tooltip('hide');
+        });
+    });
+</script>*@

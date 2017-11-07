@@ -1,0 +1,11 @@
+﻿@{
+    ViewBag.Title = "Confirm Email";
+}
+
+<h2>@ViewBag.Title</h2>
+
+    <div style="text-align:center; border-style: ridge;  margin-left:30%; margin-right:30%; font-size:20px; border-radius:7px;">
+    <p>
+            Thank you for confirming your email. Please click  <a href="@Url.Action("Index", "Login", new { area = "Login" })">here</a>
+        </p>
+    </div>
